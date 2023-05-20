@@ -37,10 +37,12 @@ function useSearch () {
 }
 
 function App () {
-  const [sort, setSort] = useState(false)
-
   const { search, updateSearch, error } = useSearch()
-  const { movies, getMovies, loading } = useMovies({ search, sort })
+  const { movies, getMovies, loading } = useMovies({ search })
+
+  useEffect(() => {
+    getMovies({ search: 'avengers' })
+  }, [])
 
   const debouncedGetMovies = useCallback(
     debounce(search => {
@@ -61,17 +63,12 @@ function App () {
     debouncedGetMovies(newSearch)
   }
 
-  const handleSort = () => {
-    setSort(!sort)
-  }
-
   return (
     <div className="page">
       <h1>Busca tus películas</h1>
       <header>
         <form className="form" onSubmit={handleSubmit}>
           <input onChange={handleChange} value={search} name='query' placeholder="Avengers, Start Wars, The Matrix..." />
-          <input type='checkbox' onChange={handleSort} checked={sort}/>
           <button type="submit">Buscar</button>
         </form>
         {error && <p style={{ color: 'red' }}>{error}</p>}
