@@ -3,6 +3,7 @@ import { useMovies } from './hooks/useMovies'
 import { Movies } from './components/Movies'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import debounce from 'just-debounce-it'
+import MoviesLiekd from './components/MoviesLiekd'
 
 function useSearch () {
   const [search, updateSearch] = useState('')
@@ -79,6 +80,7 @@ function App () {
           loading ? <p>Cargando...</p> : <Movies movies={movies}/>
         }
       </main>
+      <MoviesLiekd/>
     </div>
   )
 }
