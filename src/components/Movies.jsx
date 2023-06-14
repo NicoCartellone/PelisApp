@@ -1,22 +1,33 @@
 import useFavouriteMoviesStore from '../store/favouriteMoviesStore'
+import { Toaster, toast } from 'sonner'
 
 function ListOfMovies ({ movies }) {
   const addLikedmovie = useFavouriteMoviesStore((state) => state.addLikedmovie)
+  const likedMovies = useFavouriteMoviesStore((state) => state.likedMovies)
 
-  const handleLikeMovie = (movie) => {
-    addLikedmovie(movie)
+  const handleLikeMovie = async (movie) => {
+    const movieExist = likedMovies.find((m) => m.id === movie.id)
+    if (!movieExist) {
+      await addLikedmovie(movie)
+      toast.success('Película guardada con exito')
+    } else {
+      toast.error('Película ya guardada')
+    }
   }
   return (
+    <>
+      <Toaster position='top-right' richColors/>
       <ul className="movies">
         {movies.map((movie) => (
           <li className="movie" key={movie.id}>
             <img src={movie.poster} alt={movie.Title} />
             <h3>{movie.title}</h3>
             <p>{movie.year}</p>
-            <button onClick={() => handleLikeMovie(movie)}>Like</button>
+            <button onClick={() => handleLikeMovie(movie)}>Guardar</button>
           </li>
         ))}
       </ul>
+    </>
   )
 }
 
