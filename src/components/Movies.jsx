@@ -1,5 +1,6 @@
 import useFavouriteMoviesStore from '../store/favouriteMoviesStore'
 import { Toaster, toast } from 'sonner'
+import { URL_POSTER_PATH } from '../services/movies'
 
 function ListOfMovies ({ movies }) {
   const addLikedmovie = useFavouriteMoviesStore((state) => state.addLikedmovie)
@@ -20,7 +21,7 @@ function ListOfMovies ({ movies }) {
       <ul className="movies">
         {movies.map((movie) => (
           <li className="movie" key={movie.id}>
-            <img src={movie.poster} alt={movie.Title} />
+            <img src={`${URL_POSTER_PATH}${movie.poster_path}`} alt={movie.Title} />
             <h3>{movie.title}</h3>
             <p>{movie.year}</p>
             <button onClick={() => handleLikeMovie(movie)}>Guardar</button>
