@@ -1,6 +1,6 @@
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 const BASE_URL = 'https://api.themoviedb.org/3'
-export const URL_POSTER_PATH = 'https://image.tmdb.org/t/p/w500'
+export const URL_POSTER_PATH = 'https://image.tmdb.org/t/p/w500/'
 
 export const searchMovies = async ({ search }) => {
   if (search === '') return null
@@ -11,7 +11,12 @@ export const searchMovies = async ({ search }) => {
 
     const movies = json.results
 
-    return movies
+    return movies?.map(movie => ({
+      id: movie.id,
+      title: movie.title,
+      year: movie.release_date,
+      poster: movie.poster_path
+    }))
   } catch (e) {
     throw new Error('Error searching movies')
   }

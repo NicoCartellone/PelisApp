@@ -1,6 +1,7 @@
 import useFavouriteMoviesStore from '../store/favouriteMoviesStore'
 import { Toaster, toast } from 'sonner'
 import { URL_POSTER_PATH } from '../services/movies'
+import { formatReleaseDate } from '../utils/deteFomat'
 
 function ListOfMovies ({ movies }) {
   const addLikedmovie = useFavouriteMoviesStore((state) => state.addLikedmovie)
@@ -21,9 +22,13 @@ function ListOfMovies ({ movies }) {
       <ul className="movies">
         {movies.map((movie) => (
           <li className="movie" key={movie.id}>
-            <img src={`${URL_POSTER_PATH}${movie.poster_path}`} alt={movie.Title} />
-            <h3>{movie.title}</h3>
-            <p>{movie.year}</p>
+            <a>
+              <img src={`${URL_POSTER_PATH}${movie.poster}`} alt={movie.Title} />
+            </a>
+            <h3>{movie.title.length > 22
+              ? movie.title.slice(0, 22) + '...'
+              : movie.title}</h3>
+            <p>{formatReleaseDate(movie.year)}</p>
             <button onClick={() => handleLikeMovie(movie)}>Guardar</button>
           </li>
         ))}
